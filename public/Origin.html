@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Origin.css">
+    <title>Super Note</title>
+</head>
+
+<body>
+    <div class="top">
+        <h1 style="font-size: 50px; font-family: 'Comic Sans MS', sans-serif; margin-left: 10px;">
+            Super 
+            <img src="images/Symbol.png" alt="logo" style="height: 60px; vertical-align: middle; width: 60px;">
+            Note
+        </h1>
+        <div class="auth-buttons" id="auth-buttons">
+            <a href="Origin.html">首頁</a>
+            <a href="Note.html">編輯筆記</a>
+            <button class="login-btn" onclick="window.location.href='Start.html?mode=login'">登入</button>
+            <button class="register-btn" onclick="window.location.href='Start.html?mode=register'">註冊</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>
+            歡迎來到 Super Note !
+            <img src="images/Symbol.png" alt="logo" style="height: 150px; vertical-align: middle; width: 150px; margin-left: 100px;">
+        </h2>
+    </div>
+
+    <div class = "container">
+        <div class = "con1">
+            <h2 style = "font-size: 30px;">自由創建自己的記事本</h2>
+            <img src = "images/NoteBook.png" style="border-radius: 8px;" />
+        </div>
+
+        <div class = "con2">
+            <h2 style = "font-size: 30px;">快速檢視及新增刪除</h2>
+            <img src = "images/Function.png" style="border-radius: 8px;" />
+        </div>
+    </div>
+
+    <div class = view>
+        <h2>可視化的日曆<br>快速檢視內容</h2>
+        <video src="videos/view.mp4" autoplay muted loop playsinline></video>
+        <video src="videos/add.mp4" autoplay muted loop playsinline></video>
+        <h2>輕鬆建立任務</h2>
+        <h2>快速刪除任務</h2>
+        <video src="videos/delete.mp4" autoplay muted loop playsinline></video>
+    </div>
+
+    <div class = "start" style="text-align: center; margin-top: 5%; margin-bottom: 50px;">
+        <h3>還沒有帳號? 趕快註冊並使用這個超好用的工具! <a href="Start.html?mode=register">註冊</a></h3>
+        <h3>已經有帳號? 那就趕快登入吧! <a href="Start.html?mode=login">登入</a></h3>
+    </div>
+
+    <footer>
+        <!-- 左邊: 版權信息 -->
+        <div class="left-section">
+            <p>© 2025 Super Note. All rights reserved.</p>
+        </div>
+
+        <!-- 左邊: logo -->
+        <div class="left-logo">
+            <img src="images/Symbol.png" alt="logo" class="logo">
+        </div>
+
+        <!-- 社交媒體鏈接 -->
+        <div class="social-links">
+            <h2 style="font-size: 15px;">個人資訊</h2>
+            <a href="https://www.facebook.com/profile.php?id=100008128476272" target="_blank">Facebook</a> |
+            <a href="https://www.instagram.com/wu_0408_11/" target="_blank">Instagram</a>
+        </div>
+
+        <!-- 隱私政策和服務條款 -->
+        <div class="legal-links">
+            <h2 style="font-size: 15px;">隱私政策</h2>
+            <a href="policy/Privacy.html" target="_blank">Privacy Policy</a> | 
+            <a href="policy/Service.html" target="_blank">Terms of Service</a>
+        </div>
+
+        <div class="contact-links">
+            <h2 style="font-size:15px;">聯絡我們</h2>
+            <p>Contact us at: <a href="policy/Contact.html" target="_blank">form</a></p>
+        </div>
+    </footer>
+
+    <script src="Origin.js"></script>
+</body>
+</html>
