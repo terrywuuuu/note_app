@@ -8,15 +8,15 @@ const router = express.Router();
 
 // JWT 驗證中間件
 const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-
+    const token = req.cookies.token;
     if (!token) {
         return res.status(401).send({ error: 'Access token required' });
     }
 
     jwt.verify(token, process.env.SESSION_SECRET, (err, user) => {
         if (err) {
+            // 清除無效的 cookie
+            res.clearCookie('token');
             return res.status(403).send({ error: 'Invalid or expired token' });
         }
         req.user = user;
@@ -34,7 +34,13 @@ router.post('/register', async (req, res) => {
         }
         const userId = await createUser(email, password, name, avatar);
         const token = jwt.sign({ id: userId }, process.env.SESSION_SECRET, { expiresIn: '1h' });
-        res.status(201).send({ message: 'User registered successfully', token, username: name, userId: userId, avatar: avatar});
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000
+        });
+        res.status(201).send({ message: 'User registered successfully', username: name, userId, avatar });
     } catch (error) {
         res.status(500).send({ error: 'Registration failed' });
     }
@@ -55,7 +61,13 @@ router.post('/login', async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id }, process.env.SESSION_SECRET, { expiresIn: '1h' });
-        res.send({ token, userId: user.id, username: user.username, avatar: user.avatar_url});
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000
+        });
+        res.send({ userId: user.id, username: user.username, avatar: user.avatar_url });
     } catch (error) {
         res.status(500).send({ error: 'Login failed' });
     }
@@ -89,8 +101,14 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
     try {
         const token = jwt.sign({ id: req.user.id }, process.env.SESSION_SECRET, { expiresIn: '1h' });
         
-        // 重定向到前端並帶上 token
-        res.redirect(`/Note.html?token=${token}&userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
+        // 設置 cookie 並重定向到前端
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000
+        });
+        res.redirect(`/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
     } catch (error) {
         res.redirect('/public/Origin.html?error=oauth_failed');
     }
@@ -119,8 +137,14 @@ router.get('/github/callback', passport.authenticate('github', { session: false 
     try {
         const token = jwt.sign({ id: req.user.id }, process.env.SESSION_SECRET, { expiresIn: '1h' });
         
-        // 重定向到前端並帶上 token
-        res.redirect(`/Note.html?token=${token}&userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
+        // 設置 cookie 並重定向到前端
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 60 * 60 * 1000
+        });
+        res.redirect(`/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
     } catch (error) {
         res.redirect('/public/Origin.html?error=oauth_failed');
     }
@@ -156,5 +180,11 @@ router.get('/list', authenticateToken, async (req, res) => {
         res.status(500).send({ error: 'Failed to fetch notes' });
     }
 });
+
+router.post('/logout', authenticateToken, (req, res) => {
+    res.clearCookie('token');
+    res.status(200).send({ message: '登出成功' });
+});
+
 
 module.exports = router;

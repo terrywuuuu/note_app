@@ -75,6 +75,7 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
 
         const response = await fetch('/api/auth/login', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -86,7 +87,6 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
             alert('登入成功!');
             localStorage.setItem('username', data.username);
             localStorage.setItem('userId', data.userId);
-            localStorage.setItem('token', data.token); // 儲存 JWT token
             localStorage.setItem('avatar', data.avatar);
             setTimeout(() => {
                 window.location.href = 'Note.html';
@@ -104,6 +104,7 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
 
         const response = await fetch('/api/auth/register', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -116,7 +117,6 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
             localStorage.setItem('username', data.username);
             localStorage.setItem('userId', data.userId);
             localStorage.setItem('avatar', data.avatar);
-            localStorage.setItem('token', data.token);
             setTimeout(() => {
                 window.location.href = 'Note.html';
             }, 1000);

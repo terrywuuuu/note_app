@@ -47,10 +47,19 @@ document.getElementById('logout').addEventListener('click', () => {
     // 清除所有登入相關的資料
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
-    localStorage.removeItem('token');
-    alert('登出成功');
-    window.location.href = 'Origin.html';
     dropdownMenu.classList.remove('show'); // 關閉下拉選單
+
+    fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+    }).then(response => {
+        if (response.ok) {
+            alert('登出成功');
+            window.location.href = 'Origin.html';
+        } else {
+            alert('登出失敗');
+        }
+    });
 });
 
 // 名稱修改相關事件
@@ -74,14 +83,13 @@ document.getElementById('confirmNameChange').addEventListener('click', async () 
     }
     
     const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
     
     try {
         const response = await fetch('/api/auth/updateUsername', {
             method: 'PUT',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ userId, username: newUsername }),
         });
@@ -109,7 +117,6 @@ function bindAvatarClick() {
     avatarList.forEach(avatar => {
         avatar.addEventListener('click', async () => {
             const userId = localStorage.getItem('userId');
-            const token = localStorage.getItem('token');
             let avatarPath = avatar.src.replace(window.location.origin + '/', '');
 
             document.getElementById('avatarImg').src = avatar.src;
@@ -118,9 +125,9 @@ function bindAvatarClick() {
 
             const response = await fetch('/api/auth/updateAvatar', {
                 method: 'PUT',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ userId, avatar: avatarPath }),
             });
@@ -148,17 +155,10 @@ function bindAvatarClick() {
 };
 
 async function fetchNotes(userId) {
-    const token = localStorage.getItem('token'); // 從 localStorage 取得 token
-    
-    if (!token) {
-        alert('請先登入');
-        window.location.href = 'Start.html?mode=login';
-        return;
-    }
-
     const response = await fetch(`/api/auth/list?userId=${userId}`, {
+        credentials: 'include',
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json',
         }
     });
 
@@ -175,7 +175,6 @@ async function fetchNotes(userId) {
     } else if (response.status === 401 || response.status === 403) {
         // Token 無效或過期
         alert('登入已過期，請重新登入');
-        localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
         window.location.href = 'Start.html?mode=login';
@@ -237,18 +236,15 @@ function isGitHubAvatar(url) {
 }
 
 window.onload = async function() {
-    // 如果網址有 userId/username/token，則覆蓋 localStorage
+    // 如果網址有 userId/username/avatar，則覆蓋 localStorage
     const urlUserId = getQueryParam('userId');
     const urlUsername = getQueryParam('username');
     const urlAvatar = getQueryParam('avatar');
-    const urlToken = getQueryParam('token');
-    console.log(urlAvatar);
 
-    if (urlUserId && urlUsername && urlToken) {
+    if (urlUserId && urlUsername) {
         localStorage.setItem('userId', urlUserId);
         localStorage.setItem('username', urlUsername);
         localStorage.setItem('avatar', urlAvatar);
-        localStorage.setItem('token', urlToken);
 
         if(isGoogleAvatar(urlAvatar) || isGitHubAvatar(urlAvatar)){
             localStorage.setItem('google-avatar', urlAvatar);
@@ -268,11 +264,10 @@ window.onload = async function() {
     // 檢查是否有有效的登入狀態
     const username = localStorage.getItem('username');
     const storedUserId = localStorage.getItem('userId');
-    const storedToken = localStorage.getItem('token');
     const storedAvatar = localStorage.getItem('avatar');
     
     // 如果沒有使用者資訊，重定向到登入頁面
-    if (!username || !storedUserId || !storedToken) {
+    if (!username || !storedUserId) {
         alert('請先登入');
         window.location.href = 'Start.html?mode=login';
         return;
@@ -332,20 +327,13 @@ async function finish(){
     if (title && content && dueDate) {
         const date = new Date(dueDate);
         dueDate = date.toISOString();
-        
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('請先登入');
-            window.location.href = 'Start.html?mode=login';
-            return;
-        }
-        
+
         // 保存新筆記
         const response = await fetch('/api/auth/add', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ userId, title, content, dueDate }),
         });
@@ -382,7 +370,6 @@ async function finish(){
         } else if (response.status === 401 || response.status === 403) {
             // Token 無效或過期
             alert('登入已過期，請重新登入');
-            localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('username');
             window.location.href = 'Start.html?mode=login';
@@ -401,18 +388,11 @@ async function deleteNote(noteId) {
         return;
     }
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert('請先登入');
-        window.location.href = 'Start.html?mode=login';
-        return;
-    }
-
     const response = await fetch('/api/auth/delete', {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ noteId, userId }),
     });
@@ -424,7 +404,6 @@ async function deleteNote(noteId) {
         renderFullCalendar(notes);
     } else if (response.status === 401 || response.status === 403) {
         alert('登入已過期，請重新登入');
-        localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('username');
         window.location.href = 'Start.html?mode=login';

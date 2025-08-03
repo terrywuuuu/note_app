@@ -9,7 +9,9 @@ const { findUserByOAuthId, createOAuthUser, findUserByEmail, updateUserOAuthInfo
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID || 'your-google-client-id',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'your-google-client-secret',
-    callbackURL: "http://localhost:3000/api/auth/google/callback"
+    callbackURL: process.env.NODE_ENV === 'production' 
+        ? `${process.env.APP_URL}/api/auth/google/callback`
+        : "http://localhost:3000/api/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         // 檢查是否已有此 Google 用戶
@@ -45,7 +47,9 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID || 'your-github-client-id',
     clientSecret: process.env.GITHUB_CLIENT_SECRET || 'your-github-client-secret',
-    callbackURL: "http://localhost:3000/api/auth/github/callback"
+    callbackURL: process.env.NODE_ENV === 'production' 
+        ? `${process.env.APP_URL}/api/auth/github/callback`
+        : "http://localhost:3000/api/auth/github/callback"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         // 檢查是否已有此 GitHub 用戶

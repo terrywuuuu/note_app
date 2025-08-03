@@ -8,9 +8,18 @@ const path = require('path');
 const passport = require('./passport-config');
 const session = require('express-session');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const cookieParser = require('cookie-parser');
 
-app.use(cors());
+// 根據環境設定 CORS
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? process.env.APP_URL 
+        : `http://localhost:${port}`,
+    credentials: true
+};
+app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 // 初始化 Passport

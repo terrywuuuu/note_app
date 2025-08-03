@@ -1,11 +1,11 @@
 const sql = require('mssql');
 
 const config = {
-  server: 'localhost',
-  database: 'Note',
+  server: process.env.DB_SERVER || 'localhost',
+  database: process.env.DB_NAME || 'Note',
   options: {
     encrypt: true, // 啟用加密連線
-    trustServerCertificate: true, // 信任未受信任的憑證（僅在測試環境使用）
+    trustServerCertificate: process.env.NODE_ENV !== 'production', // 生產環境不信任未受信任的憑證
   },
   authentication: {
     type: 'default',  // 使用 SQL Server 驗證

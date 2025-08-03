@@ -1,10 +1,9 @@
 function checkLoginStatus() {
     const username = localStorage.getItem('username');
     const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
     const authButtons = document.getElementById('auth-buttons');
 
-    if (username && userId && token) {
+    if (username && userId) {
         // 已登入狀態
         authButtons.innerHTML = `
             <a href="Origin.html">首頁</a>
@@ -93,9 +92,18 @@ function checkLoginStatus() {
                 logoutBtn.addEventListener('click', () => {
                     localStorage.removeItem('username');
                     localStorage.removeItem('userId');
-                    localStorage.removeItem('token');
-                    alert('登出成功');
-                    window.location.reload();
+                    dropdownMenu.classList.remove('show'); // 關閉下拉選單
+                    fetch('/api/auth/logout', {
+                        method: 'POST',
+                        credentials: 'include',
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('登出成功');
+                            window.location.href = 'Origin.html';
+                        } else {
+                            alert('登出失敗');
+                        }
+                    });
                 });
             }
 
@@ -136,7 +144,6 @@ function checkLoginStatus() {
             avatarList.forEach(avatar => {
                 avatar.addEventListener('click', async () => {
                     const userId = localStorage.getItem('userId');
-                    const token = localStorage.getItem('token');
                     let avatarPath = avatar.src.replace(window.location.origin + '/', '');
 
                     document.getElementById('avatarImg').src = avatar.src;
@@ -145,9 +152,9 @@ function checkLoginStatus() {
 
                     const response = await fetch('/api/auth/updateAvatar', {
                         method: 'PUT',
+                        credentials: 'include',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify({ userId, avatar: avatarPath }),
                     });
@@ -177,14 +184,13 @@ function checkLoginStatus() {
                 }
                 
                 const userId = localStorage.getItem('userId');
-                const token = localStorage.getItem('token');
                 
                 try {
                     const response = await fetch('/api/auth/updateUsername', {
-                        method: 'PUT',
+                        method: 'PUT',  
+                        credentials: 'include',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify({ userId, username: newUsername }),
                     });
@@ -216,6 +222,12 @@ function checkLoginStatus() {
         `;
     }
 }
+
+window.addEventListener('storage', function (e) {
+    if (e.key === 'token' && !e.newValue) {
+        window.location.reload();
+    }
+});
 
 // 頁面載入時檢查登入狀態
 window.onload = function() {
