@@ -6,7 +6,7 @@ function checkLoginStatus() {
     if (username && userId) {
         // 已登入狀態
         authButtons.innerHTML = `
-            <a href="Origin.html">首頁</a>
+            <a href="index.html">首頁</a>
             <a href="Note.html" style="margin-right: 100px;">編輯筆記</a>
             <img id="avatarImg" src="images/Pic1.png" alt="headshot" style="height: 40px; vertical-align: middle; width: 40px; border-radius: 50%; border: 2px solid #ccc;">
             <label for="user" id="userlbl" style="font-size: 20px; margin: 0 10px;">${username}</label>
@@ -99,7 +99,7 @@ function checkLoginStatus() {
                     }).then(response => {
                         if (response.ok) {
                             alert('登出成功');
-                            window.location.href = 'Origin.html';
+                            window.location.href = 'index.html';
                         } else {
                             alert('登出失敗');
                         }
@@ -215,7 +215,7 @@ function checkLoginStatus() {
     } else {
         // 未登入狀態 - 保持原本的內容
         authButtons.innerHTML = `
-            <a href="Origin.html">首頁</a>
+            <a href="index.html">首頁</a>
             <a href="Note.html">編輯筆記</a>
             <button class="login-btn" onclick="window.location.href='Start.html?mode=login'">登入</button>
             <button class="register-btn" onclick="window.location.href='Start.html?mode=register'">註冊</button>

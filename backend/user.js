@@ -110,7 +110,7 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
         });
         res.redirect(`${process.env.APP_URL}/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
     } catch (error) {
-        res.redirect('/public/Origin.html?error=oauth_failed');
+        res.redirect('/public/index.html?error=oauth_failed');
     }
 });
 
@@ -125,7 +125,7 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
 //         // 重定向到前端並帶上 token
 //         res.redirect(`/Note.html?token=${token}&userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
 //     } catch (error) {
-//         res.redirect('/public/Origin.html?error=oauth_failed');
+//         res.redirect('/public/index.html?error=oauth_failed');
 //     }
 // });
 
@@ -146,7 +146,7 @@ router.get('/github/callback', passport.authenticate('github', { session: false 
         });
         res.redirect(`${process.env.APP_URL}/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
     } catch (error) {
-        res.redirect('/public/Origin.html?error=oauth_failed');
+        res.redirect('/public/index.html?error=oauth_failed');
     }
 });
 

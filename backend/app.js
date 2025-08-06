@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // 路由设置
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'Origin.html'));
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
 app.use('/api/auth', authRoutes);

@@ -55,7 +55,7 @@ document.getElementById('logout').addEventListener('click', () => {
     }).then(response => {
         if (response.ok) {
             alert('登出成功');
-            window.location.href = 'Origin.html';
+            window.location.href = 'index.html';
         } else {
             alert('登出失敗');
         }
