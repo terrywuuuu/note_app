@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 60 * 60 * 1000
         });
         res.status(201).send({ message: 'User registered successfully', username: name, userId, avatar });
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 60 * 60 * 1000
         });
         res.send({ userId: user.id, username: user.username, avatar: user.avatar_url });
@@ -106,7 +106,7 @@ router.get('/google/callback', passport.authenticate('google', { session: false 
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 60 * 60 * 1000
         });
         res.redirect(`${process.env.APP_URL}/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
@@ -142,7 +142,7 @@ router.get('/github/callback', passport.authenticate('github', { session: false 
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
+            sameSite: 'None',
             maxAge: 60 * 60 * 1000
         });
         res.redirect(`${process.env.APP_URL}/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
