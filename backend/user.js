@@ -2,8 +2,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const { createUser, findUserByEmail, updateUserAvatar, updateUserUsername} = require('./userModel');
-const { createNote, deleteNote, getNotesByUserId } = require('./noteModel');
+const { createUser, findUserByEmail, updateUserAvatar, updateUserUsername} = require('./backend/userModel');
+const { createNote, deleteNote, getNotesByUserId } = require('./backend/noteModel');
 const router = express.Router();
 
 // JWT 驗證中間件

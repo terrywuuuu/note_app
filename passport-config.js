@@ -3,7 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
 const jwt = require('jsonwebtoken');
-const { findUserByOAuthId, createOAuthUser, findUserByEmail, updateUserOAuthInfo } = require('./userModel');
+const { findUserByOAuthId, createOAuthUser, findUserByEmail, updateUserOAuthInfo } = require('./backend/userModel');
 
 // Google OAuth 策略
 passport.use(new GoogleStrategy({
