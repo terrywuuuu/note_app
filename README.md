@@ -15,7 +15,7 @@
 ## 技術棧
 
 - **後端**: Node.js, Express.js
-- **資料庫**: SQL Server
+- **資料庫**: PostgreSQL
 - **認證**: Passport.js, JWT
 - **前端**: HTML5, CSS3, JavaScript
 - **日曆**: FullCalendar.js
@@ -48,7 +48,13 @@ npm run dev
 
 5. 開啟瀏覽器訪問 `http://localhost:3000`
 
-### 部署
+## 部署
+
+專案已成功部署在：
+
+前端： Vercel
+
+後端 + 資料庫： Render
 
 詳細的部署說明請參考 [DEPLOYMENT.md](./DEPLOYMENT.md)
 
@@ -58,4 +64,8 @@ npm run dev
 
 ## 授權
 
-MIT License
+MIT License, ，詳見 [LICENSE](./LICENSE)
+
+## 聯絡方式
+
+如需刪除帳號或資料，請聯絡開發者：t940408wu@gmail.com
