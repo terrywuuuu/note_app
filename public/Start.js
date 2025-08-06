@@ -73,7 +73,7 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        const response = await fetch('/api/auth/login', {
+        const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/login', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -102,7 +102,7 @@ document.querySelector('.form-container').addEventListener('submit', async (e) =
         const password = document.getElementById('rpassword').value;
         const avatar = "images/Pic1.png";
 
-        const response = await fetch('/api/auth/register', {
+        const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/register', {
             method: 'POST',
             credentials: 'include',
             headers: {

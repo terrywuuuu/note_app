@@ -93,7 +93,7 @@ function checkLoginStatus() {
                     localStorage.removeItem('username');
                     localStorage.removeItem('userId');
                     dropdownMenu.classList.remove('show'); // 關閉下拉選單
-                    fetch('/api/auth/logout', {
+                    fetch('https://supernote-l6k9.onrender.com/api/auth/logout', {
                         method: 'POST',
                         credentials: 'include',
                     }).then(response => {
@@ -150,7 +150,7 @@ function checkLoginStatus() {
                     document.getElementById('blurBg').style.display = 'none';
                     document.getElementById('avatarModal').style.display = 'none';
 
-                    const response = await fetch('/api/auth/updateAvatar', {
+                    const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/updateAvatar', {
                         method: 'PUT',
                         credentials: 'include',
                         headers: {
@@ -186,7 +186,7 @@ function checkLoginStatus() {
                 const userId = localStorage.getItem('userId');
                 
                 try {
-                    const response = await fetch('/api/auth/updateUsername', {
+                    const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/updateUsername', {
                         method: 'PUT',  
                         credentials: 'include',
                         headers: {

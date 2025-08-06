@@ -49,7 +49,7 @@ document.getElementById('logout').addEventListener('click', () => {
     localStorage.removeItem('userId');
     dropdownMenu.classList.remove('show'); // 關閉下拉選單
 
-    fetch('/api/auth/logout', {
+    fetch('https://supernote-l6k9.onrender.com/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
     }).then(response => {
@@ -85,7 +85,7 @@ document.getElementById('confirmNameChange').addEventListener('click', async () 
     const userId = localStorage.getItem('userId');
     
     try {
-        const response = await fetch('/api/auth/updateUsername', {
+        const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/updateUsername', {
             method: 'PUT',
             credentials: 'include',
             headers: {
@@ -123,7 +123,7 @@ function bindAvatarClick() {
             document.getElementById('blurBg').style.display = 'none';
             document.getElementById('avatarModal').style.display = 'none';
 
-            const response = await fetch('/api/auth/updateAvatar', {
+            const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/updateAvatar', {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -155,7 +155,7 @@ function bindAvatarClick() {
 };
 
 async function fetchNotes(userId) {
-    const response = await fetch(`/api/auth/list?userId=${userId}`, {
+    const response = await fetch(`https://supernote-l6k9.onrender.com/api/auth/list?userId=${userId}`, {
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
@@ -329,7 +329,7 @@ async function finish(){
         dueDate = date.toISOString();
 
         // 保存新筆記
-        const response = await fetch('/api/auth/add', {
+        const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/add', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -388,7 +388,7 @@ async function deleteNote(noteId) {
         return;
     }
 
-    const response = await fetch('/api/auth/delete', {
+    const response = await fetch('https://supernote-l6k9.onrender.com/api/auth/delete', {
         method: 'DELETE',
         credentials: 'include',
         headers: {
