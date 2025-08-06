@@ -32,11 +32,15 @@ const { Pool } = require('pg'); // 引入 pg 的 Pool 來管理資料庫連接�
 
 // 設定 PostgreSQL 的連接配置
 const config = {
-  user: process.env.DB_USER, // 使用的資料庫用戶
-  host: process.env.DB_SERVER, // 伺服器
-  database: process.env.DB_NAME, // 資料庫名稱
-  password: process.env.DB_PASS, // 密碼
-  port: process.env.DB_PORT || 5432, // 預設 PostgreSQL 端口
+  // user: process.env.DB_USER, // 使用的資料庫用戶
+  // host: process.env.DB_SERVER, // 伺服器
+  // database: process.env.DB_NAME, // 資料庫名稱
+  // password: process.env.DB_PASS, // 密碼
+  // port: process.env.DB_PORT || 5432, // 預設 PostgreSQL 端口
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  }
 };
 
 const pool = new Pool(config); // 用 Pool 管理多個連線
