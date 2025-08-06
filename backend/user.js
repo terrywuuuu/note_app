@@ -69,6 +69,7 @@ router.post('/login', async (req, res) => {
         });
         res.send({ userId: user.id, username: user.username, avatar: user.avatar_url });
     } catch (error) {
+        console.error('Login Error:', error);
         res.status(500).send({ error: 'Login failed' });
     }
 });
