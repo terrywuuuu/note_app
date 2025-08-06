@@ -1,11 +1,10 @@
-require('dotenv').config();
-// 导入模块
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const express = require('express');
 const authRoutes = require('./user');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const path = require('path');
-const passport = require('./passport-config');
+const passport = require('../passport-config');
 const session = require('express-session');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -31,11 +30,11 @@ app.use(session({
 app.use(passport.initialize());
 
 // 设置静态文件目录
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // 路由设置
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'Origin.html'));
+    res.sendFile(path.join(__dirname, '../public', 'Origin.html'));
 });
 
 app.use('/api/auth', authRoutes);
