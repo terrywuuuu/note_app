@@ -147,6 +147,7 @@ router.get('/github/callback', passport.authenticate('github', { session: false 
         });
         res.redirect(`${process.env.APP_URL}/Note.html?userId=${req.user.id}&username=${req.user.username}&avatar=${req.user.avatar_url}`);
     } catch (error) {
+        console.error('OAuth callback error:', error);
         res.redirect('/public/index.html?error=oauth_failed');
     }
 });
