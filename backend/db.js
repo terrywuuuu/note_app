@@ -29,6 +29,7 @@
 // module.exports = { poolPromise };
 
 const { Pool } = require('pg'); // 引入 pg 的 Pool 來管理資料庫連接池
+const isProduction = process.env.NODE_ENV === 'production';
 
 // 設定 PostgreSQL 的連接配置
 const config = {
@@ -38,9 +39,7 @@ const config = {
   // password: process.env.DB_PASS, // 密碼
   // port: process.env.DB_PORT || 5432, // 預設 PostgreSQL 端口
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  }
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
 };
 
 const pool = new Pool(config); // 用 Pool 管理多個連線
